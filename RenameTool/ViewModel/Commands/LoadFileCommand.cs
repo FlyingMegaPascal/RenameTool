@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace RenameTool.ViewModel
+namespace RenameTool.ViewModel.Commands
 {
     internal class LoadFileCommand : ICommand
     {
@@ -27,31 +27,38 @@ namespace RenameTool.ViewModel
             OpenFile();
         }
 
+        public event EventHandler CanExecuteChanged;
+
 
         public void OpenFile()
         {
-            var openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() != true)
-            {
-                return;
-            }
-
-            var directory = Path.GetDirectoryName(openFileDialog.FileName);
-
+            var directory = SelectPath();
             if (directory == null)
-            {
-                throw new ArgumentNullException($"directory ist not defined");
-            }
-            var filePaths = Directory.GetFiles(directory).ToList();
-            foreach (var filePath in filePaths)
-            {
-                viewModel.FileList.Add(new File(filePath));
-            }
-
+                return;
+            AddFiles(directory);
+            //Update Commands
             viewModel.OnPropertyChanged();
         }
 
-        public event EventHandler CanExecuteChanged;
+        private void AddFiles(string directory)
+        {
+            var filePaths = Directory.GetFiles(directory).ToList();
+            viewModel.FileList.Clear();
+
+            foreach (var filePath in filePaths)
+            {
+                viewModel.FileList.Add(new File(filePath, viewModel));
+            }
+        }
+
+        private static string SelectPath()
+        {
+            var dialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true
+            };
+            return dialog.ShowDialog() == CommonFileDialogResult.Ok ? dialog.FileName : null;
+        }
 
         // ReSharper disable once UnusedMember.Global
         protected virtual void OnCanExecuteChanged()

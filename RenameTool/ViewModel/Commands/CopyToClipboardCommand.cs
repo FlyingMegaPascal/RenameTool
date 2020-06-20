@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
-namespace RenameTool.ViewModel
+namespace RenameTool.ViewModel.Commands
 {
-    class RenameCommand : ICommand
+    internal class CopyToClipboardCommand : ICommand
     {
-
         private readonly ViewModelBase viewModel;
 
-        public RenameCommand(ViewModelBase viewModel)
+        public CopyToClipboardCommand(ViewModelBase viewModel)
         {
             this.viewModel = viewModel;
             viewModel.PropertyChanged += OnCanExecuteChanged;
@@ -22,21 +18,22 @@ namespace RenameTool.ViewModel
 
         public bool CanExecute(object parameter)
         {
-            return viewModel.FileList.Count > 0;
+            return viewModel.IsAnySelected();
         }
 
         public void Execute(object parameter)
         {
-            foreach (var file in viewModel.FileList)
-            {
-                file.ChangeFileName();
-            }
-
-            viewModel.Prefix = "";
+            var selectedFiles = viewModel.FileList.Where(file => file.IsSelected).ToList();
+            var fileNames = selectedFiles.Select(file => file.OriginalFileName);
+            var txtClipboard = string.Join("\n", fileNames);
+            Clipboard.SetText(txtClipboard);
+            MessageBox.Show(txtClipboard);
+            //Update Commands
+            viewModel.OnPropertyChanged();
         }
 
         public event EventHandler CanExecuteChanged;
-        
+
         private void OnCanExecuteChanged(object sender, System.ComponentModel.PropertyChangedEventArgs eventArg)
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);

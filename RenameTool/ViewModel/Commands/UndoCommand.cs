@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 
-namespace RenameTool.ViewModel
+namespace RenameTool.ViewModel.Commands
 {
-    class UndoCommand : ICommand
+    internal class UndoCommand : ICommand
     {
         private readonly ViewModelBase viewModel;
 
@@ -15,13 +16,7 @@ namespace RenameTool.ViewModel
 
         public bool CanExecute(object parameter)
         {
-            foreach (var file in viewModel.FileList)
-            {
-                if (file.IsSelected && file.HasBackUp())
-                    return true;
-            }
-
-            return false;
+            return viewModel.FileList.Any(file => file.IsSelected && file.HasBackUp());
         }
 
         public void Execute(object parameter)
@@ -31,6 +26,7 @@ namespace RenameTool.ViewModel
                 file.Undo();
             }
 
+            //Update Commands
             viewModel.OnPropertyChanged();
         }
 
