@@ -1,2 +1,2 @@
-# RenameTool
-Low weight tool to handle mulitple files
+# File Renamer
+Demo Program for c# WPF with Commands and ViewModel
