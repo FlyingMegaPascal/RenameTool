@@ -1,22 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using RenameTool.Properties;
 
 namespace RenameTool.ViewModel
 {
-    public class File : INotifyPropertyChanged
+    public sealed class File : INotifyPropertyChanged
     {
         private readonly List<string> backUpFileNames = new List<string>();
 
         private readonly ViewModelBase viewModel;
         private string fullPath;
-
         private string previewFileName;
-
-
         private bool selected;
 
 
@@ -30,12 +29,11 @@ namespace RenameTool.ViewModel
         public string OriginalFileName
             => Path.GetFileName(fullPath);
 
-        private static string Prefix { get; set; }
 
         public string PreviewFileName
         {
             get => previewFileName;
-            set
+            private set
             {
                 previewFileName = value;
                 OnPropertyChanged(nameof(PreviewFileName));
@@ -47,60 +45,65 @@ namespace RenameTool.ViewModel
             get => selected;
             set
             {
-                if (value == selected)
+                if (selected == value)
                 {
                     return;
                 }
 
                 selected = value;
-                OnPropertyChanged(nameof(IsSelected));
                 UpdateViewItems();
+                viewModel.OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSelected));
             }
         }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void UpdateViewItems()
+        public void UpdateViewItems()
         {
-            PreviewPrefix();
             OnPropertyChanged(nameof(OriginalFileName));
-            viewModel.OnPropertyChanged();
+            PreviewFileName = !IsSelected ? OriginalFileName : CreateNewString();
         }
 
-        public void AddPrefix(string changedPrefix)
-        {
-            Prefix = changedPrefix;
-            PreviewPrefix();
-            OnPropertyChanged(nameof(OriginalFileName));
-        }
 
-        private void PreviewPrefix()
+        private string CreateNewString()
         {
-            if (IsSelected)
+            if (string.IsNullOrEmpty(viewModel.OldTextValue))
             {
-                PreviewFileName = Prefix + OriginalFileName;
+                return viewModel.Prefix + OriginalFileName;
             }
-            else
-            {
-                PreviewFileName = OriginalFileName;
-            }
+
+            var replacement = OriginalFileName.Replace(viewModel.OldTextValue, viewModel.NewTextValue);
+            return viewModel.Prefix + replacement;
         }
 
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void ChangeFileName()
         {
-            if (!IsSelected) return;
+            if (!IsSelected)
+            {
+                return;
+            }
+
             var path = Path.GetDirectoryName(fullPath) + "\\";
             backUpFileNames.Add(OriginalFileName);
-            System.IO.File.Move(path + OriginalFileName, path + PreviewFileName);
-            fullPath = path + PreviewFileName;
+            try
+            {
+                System.IO.File.Move(path + OriginalFileName, path + PreviewFileName);
+                fullPath = path + PreviewFileName;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
             UpdateViewItems();
         }
 
@@ -118,9 +121,17 @@ namespace RenameTool.ViewModel
 
             var path = Path.GetDirectoryName(fullPath) + "\\";
             var oldFileName = backUpFileNames.Last();
-            backUpFileNames.RemoveAt(backUpFileNames.Count - 1);
-            System.IO.File.Move(path + OriginalFileName, path + oldFileName);
-            fullPath = path + oldFileName;
+            try
+            {
+                System.IO.File.Move(path + OriginalFileName, path + oldFileName);
+                backUpFileNames.RemoveAt(backUpFileNames.Count - 1);
+                fullPath = path + oldFileName;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
             UpdateViewItems();
         }
     }

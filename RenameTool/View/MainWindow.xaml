@@ -98,23 +98,30 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Orientation="Horizontal" >
-                <Label Content="Prefix: " Margin="5,0"/>
-                <TextBox Text="{Binding Prefix, UpdateSourceTrigger=PropertyChanged}" Width ="100" Margin="5,0" VerticalContentAlignment="Center"/>
-                <Button Command="{Binding RenameCommand, Mode=OneWay}"
-                        Content="Rename"
-                        Width="60" Margin="5,0"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <Label Content="Prefix: " Margin="5,0" Width="80"/>
+                    <TextBox Text="{Binding Prefix, UpdateSourceTrigger=PropertyChanged}" Width ="100" Margin="5,0" VerticalContentAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <Label Content="Rename: " Margin="5,0" Width="80"/>
+                    <TextBox Text="{Binding OldTextValue, UpdateSourceTrigger=PropertyChanged}" Width ="100" Margin="5,0" VerticalContentAlignment="Center"/>
+                    <Label Content="to: " Margin="5,0"/>
+                    <TextBox Text="{Binding NewTextValue, UpdateSourceTrigger=PropertyChanged}" Width ="100" Margin="5,0" VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="{Binding CopyToClipboardCommand, Mode=OneWay}"
+                        Content="Copy To Clipboard"
+                        Width="120" />
                 <Button Command="{Binding UndoCommand, Mode=OneWay}"
                         Content="Undo"
                         Width="60" Margin="5,0" />
+                <Button Command="{Binding RenameCommand, Mode=OneWay}"
+                        Content="Rename"
+                        Width="60" Margin="5,0"/>
             </StackPanel>
-
-            <Grid Grid.Column="1">
-                <Button Command="{Binding CopyToClipboard, Mode=OneWay}"
-                        HorizontalAlignment="Right"
-                        Content="Copy To Clipboard"
-                        Width="120" />
-            </Grid>
         </Grid>
 
 

@@ -7,27 +7,38 @@ using RenameTool.ViewModel.Commands;
 
 namespace RenameTool.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public sealed class ViewModelBase : INotifyPropertyChanged
     {
-        private string prefix;
-
-
-        private bool selectAll;
-
         public ViewModelBase()
         {
             LoadFileCommand = new LoadFileCommand(this);
             RenameCommand = new RenameCommand(this);
             UndoCommand = new UndoCommand(this);
-            CopyToClipboard = new CopyToClipboardCommand(this);
+            CopyToClipboardCommand = new CopyToClipboardCommand(this);
             FileList = new ObservableCollection<File>();
         }
+
+
+        public ObservableCollection<File> FileList { get; }
 
         public ICommand LoadFileCommand { get; }
         public ICommand RenameCommand { get; }
         public ICommand UndoCommand { get; }
+        public ICommand CopyToClipboardCommand { get; }
 
-        public ICommand CopyToClipboard { get; }
+        #region CommandFunctions
+
+        public bool IsAnySelected()
+        {
+            return FileList.Any(file => file.IsSelected);
+        }
+
+        #endregion
+
+
+        #region UiTextBoxes
+
+        private string prefix = "";
 
         public string Prefix
         {
@@ -40,7 +51,38 @@ namespace RenameTool.ViewModel
             }
         }
 
-        public ObservableCollection<File> FileList { get; }
+        private string oldTextValue = "";
+
+        public string OldTextValue
+        {
+            get => oldTextValue;
+            set
+            {
+                oldTextValue = value;
+                UpdatePreview();
+                OnPropertyChanged();
+            }
+        }
+
+        private string newTextValue = "";
+
+        public string NewTextValue
+        {
+            get => newTextValue;
+            set
+            {
+                newTextValue = value;
+                UpdatePreview();
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+
+        #region selectAllCheckBox
+
+        private bool selectAll;
 
         public bool SelectAll
         {
@@ -50,10 +92,24 @@ namespace RenameTool.ViewModel
                 if (selectAll == value)
                     return;
                 selectAll = value;
-                UnOrSelectAllFiles(value);
+                SelectAllFiles(value);
+                OnPropertyChanged(nameof(SelectAll));
             }
         }
 
+        private void SelectAllFiles(bool value)
+        {
+            foreach (var file in FileList)
+            {
+                file.IsSelected = value;
+            }
+
+            OnPropertyChanged();
+        }
+
+        #endregion
+
+        #region notifier
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -61,26 +117,15 @@ namespace RenameTool.ViewModel
         {
             foreach (var file in FileList)
             {
-                file.AddPrefix(Prefix);
+                file.UpdateViewItems();
             }
         }
 
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void UnOrSelectAllFiles(bool value)
-        {
-            foreach (var file in FileList)
-            {
-                file.IsSelected = value;
-            }
-        }
-
-        public bool IsAnySelected()
-        {
-            return FileList.Any(file => file.IsSelected);
-        }
+        #endregion
     }
 }

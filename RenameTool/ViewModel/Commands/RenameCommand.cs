@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 
 namespace RenameTool.ViewModel.Commands
@@ -16,7 +17,7 @@ namespace RenameTool.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            return viewModel.IsAnySelected() && !string.IsNullOrEmpty(viewModel.Prefix);
+            return viewModel.FileList.Any(file => file.IsSelected && file.OriginalFileName != file.PreviewFileName);
         }
 
         public void Execute(object parameter)
@@ -26,7 +27,6 @@ namespace RenameTool.ViewModel.Commands
                 file.ChangeFileName();
             }
 
-            //Update Commands
             viewModel.OnPropertyChanged();
         }
 

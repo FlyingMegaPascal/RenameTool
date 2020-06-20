@@ -24,11 +24,22 @@ namespace RenameTool.ViewModel.Commands
         public void Execute(object parameter)
         {
             var selectedFiles = viewModel.FileList.Where(file => file.IsSelected).ToList();
-            var fileNames = selectedFiles.Select(file => file.OriginalFileName);
+            var fileNames = selectedFiles.Select(file => file.OriginalFileName).ToList();
             var txtClipboard = string.Join("\n", fileNames);
             Clipboard.SetText(txtClipboard);
-            MessageBox.Show(txtClipboard);
-            //Update Commands
+
+            var messageTxt = "Copy to Clipboard: \n";
+            if (selectedFiles.Count > 10)
+            {
+                messageTxt += string.Join("\n", fileNames.GetRange(0, 9));
+                messageTxt += "\n...";
+            }
+            else
+            {
+                messageTxt += txtClipboard;
+            }
+
+            MessageBox.Show(messageTxt);
             viewModel.OnPropertyChanged();
         }
 

@@ -6,7 +6,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace RenameTool.ViewModel.Commands
 {
-    internal class LoadFileCommand : ICommand
+    internal sealed class LoadFileCommand : ICommand
     {
         private readonly ViewModelBase viewModel;
 
@@ -30,13 +30,12 @@ namespace RenameTool.ViewModel.Commands
         public event EventHandler CanExecuteChanged;
 
 
-        public void OpenFile()
+        private void OpenFile()
         {
             var directory = SelectPath();
             if (directory == null)
                 return;
             AddFiles(directory);
-            //Update Commands
             viewModel.OnPropertyChanged();
         }
 
@@ -44,11 +43,14 @@ namespace RenameTool.ViewModel.Commands
         {
             var filePaths = Directory.GetFiles(directory).ToList();
             viewModel.FileList.Clear();
+            viewModel.SelectAll = false;
 
             foreach (var filePath in filePaths)
             {
                 viewModel.FileList.Add(new File(filePath, viewModel));
             }
+
+            viewModel.SelectAll = true;
         }
 
         private static string SelectPath()
@@ -60,8 +62,8 @@ namespace RenameTool.ViewModel.Commands
             return dialog.ShowDialog() == CommonFileDialogResult.Ok ? dialog.FileName : null;
         }
 
-        // ReSharper disable once UnusedMember.Global
-        protected virtual void OnCanExecuteChanged()
+        // ReSharper disable once UnusedMember.Local
+        private void OnCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
