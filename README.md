@@ -1,4 +1,4 @@
-# Simple File Renamer
+# Simple File Rename Tool
 Demo Program for c# WPF includinge ViewModel, Commands and Tests.
 
 ## Features
