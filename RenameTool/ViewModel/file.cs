@@ -3,32 +3,29 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using RenameTool.Properties;
 
 namespace RenameTool.ViewModel
 {
     public sealed class File : INotifyPropertyChanged
     {
         private readonly List<string> backUpFileNames = new List<string>();
-
         private readonly ViewModelBase viewModel;
         private string fullPath;
-        private string previewFileName;
-        private bool selected;
 
-
-        public File(string fullPath, ViewModelBase viewModel)
+        public File(string filePath, ViewModelBase viewModel)
         {
-            this.fullPath = fullPath;
+            fullPath = filePath;
             this.viewModel = viewModel;
             PreviewFileName = OriginalFileName;
         }
 
+        #region Properties
+
         public string OriginalFileName
             => Path.GetFileName(fullPath);
 
+        private string previewFileName;
 
         public string PreviewFileName
         {
@@ -40,50 +37,28 @@ namespace RenameTool.ViewModel
             }
         }
 
+
+        private bool isSelected;
+
         public bool IsSelected
         {
-            get => selected;
+            get => isSelected;
             set
             {
-                if (selected == value)
+                if (isSelected == value)
                 {
                     return;
                 }
 
-                selected = value;
-                UpdateViewItems();
-                viewModel.OnPropertyChanged();
-                OnPropertyChanged(nameof(IsSelected));
+                isSelected = value;
+                UpdateViewItems(nameof(IsSelected));
             }
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void UpdateViewItems()
-        {
-            OnPropertyChanged(nameof(OriginalFileName));
-            PreviewFileName = !IsSelected ? OriginalFileName : CreateNewString();
-        }
+        #endregion
 
 
-        private string CreateNewString()
-        {
-            if (string.IsNullOrEmpty(viewModel.OldTextValue))
-            {
-                return viewModel.Prefix + OriginalFileName;
-            }
-
-            var replacement = OriginalFileName.Replace(viewModel.OldTextValue, viewModel.NewTextValue);
-            return viewModel.Prefix + replacement;
-        }
-
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #region BusinessLogic
 
         public void ChangeFileName()
         {
@@ -105,11 +80,6 @@ namespace RenameTool.ViewModel
             }
 
             UpdateViewItems();
-        }
-
-        public bool HasBackUp()
-        {
-            return backUpFileNames.Any();
         }
 
         public void Undo()
@@ -134,5 +104,42 @@ namespace RenameTool.ViewModel
 
             UpdateViewItems();
         }
+
+
+        private string CreateNewString()
+        {
+            if (string.IsNullOrEmpty(viewModel.OldTextValue))
+            {
+                return viewModel.Prefix + OriginalFileName;
+            }
+
+            var replacement = OriginalFileName.Replace(viewModel.OldTextValue, viewModel.NewTextValue);
+            return viewModel.Prefix + replacement;
+        }
+
+        public bool HasBackUp()
+        {
+            return backUpFileNames.Any();
+        }
+
+        #endregion
+
+        #region Notifier
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateViewItems(string property = "")
+        {
+            viewModel.OnPropertyChanged(property);
+            OnPropertyChanged(property);
+            PreviewFileName = !IsSelected ? OriginalFileName : CreateNewString();
+        }
+
+        #endregion
     }
 }

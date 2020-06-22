@@ -44,9 +44,9 @@ namespace RenameTool.ViewModel.Commands
             var filePaths = Directory.GetFiles(directory).ToList();
             viewModel.FileList.Clear();
             viewModel.SelectAll = false;
-
             foreach (var filePath in filePaths)
             {
+                
                 viewModel.FileList.Add(new File(filePath, viewModel));
             }
 
