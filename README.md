@@ -2,8 +2,8 @@
 A program including wpf and xUnit tests to demonstrate my software skills.
 
 ## Features
-- Rename Multiple files at once
-- Undo
+- Rename multiple files at once
+- Undo it
 - Copy all file names to clipboard
 - Easy to use
 
