@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace RenameTool.ViewModel.Commands
 {
-    internal class UndoCommand : ICommand
+    public class UndoCommand : ICommand
     {
         private readonly ViewModelBase viewModel;
 
@@ -21,16 +21,20 @@ namespace RenameTool.ViewModel.Commands
 
         public void Execute(object parameter)
         {
+            Undo();
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public void Undo()
+        {
             foreach (var file in viewModel.FileList)
             {
                 file.Undo();
             }
 
-            //Update Commands
             viewModel.OnPropertyChanged();
         }
-
-        public event EventHandler CanExecuteChanged;
 
         private void OnCanExecuteChanged(object sender, System.ComponentModel.PropertyChangedEventArgs eventArg)
         {

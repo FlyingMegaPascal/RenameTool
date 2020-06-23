@@ -7,15 +7,17 @@ using System.Windows;
 
 namespace RenameTool.ViewModel
 {
-    public sealed class File : INotifyPropertyChanged
+    public class File : INotifyPropertyChanged
     {
         private readonly List<string> backUpFileNames = new List<string>();
         private readonly ViewModelBase viewModel;
         private string fullPath;
+        private bool isSelected;
+        private string previewFileName;
 
         public File(string filePath, ViewModelBase viewModel)
         {
-            fullPath = filePath;
+            fullPath = Path.GetFullPath(filePath);
             this.viewModel = viewModel;
             PreviewFileName = OriginalFileName;
         }
@@ -24,8 +26,6 @@ namespace RenameTool.ViewModel
 
         public string OriginalFileName
             => Path.GetFileName(fullPath);
-
-        private string previewFileName;
 
         public string PreviewFileName
         {
@@ -36,9 +36,6 @@ namespace RenameTool.ViewModel
                 OnPropertyChanged(nameof(PreviewFileName));
             }
         }
-
-
-        private bool isSelected;
 
         public bool IsSelected
         {
@@ -63,15 +60,13 @@ namespace RenameTool.ViewModel
         public void ChangeFileName()
         {
             if (!IsSelected)
-            {
                 return;
-            }
-
             var path = Path.GetDirectoryName(fullPath) + "\\";
-            backUpFileNames.Add(OriginalFileName);
+
             try
             {
                 System.IO.File.Move(path + OriginalFileName, path + PreviewFileName);
+                backUpFileNames.Add(OriginalFileName);
                 fullPath = path + PreviewFileName;
             }
             catch (Exception e)
@@ -85,14 +80,11 @@ namespace RenameTool.ViewModel
         public void Undo()
         {
             if (!IsSelected || !HasBackUp())
-            {
                 return;
-            }
-
             var path = Path.GetDirectoryName(fullPath) + "\\";
-            var oldFileName = backUpFileNames.Last();
             try
             {
+                var oldFileName = backUpFileNames.Last();
                 System.IO.File.Move(path + OriginalFileName, path + oldFileName);
                 backUpFileNames.RemoveAt(backUpFileNames.Count - 1);
                 fullPath = path + oldFileName;
@@ -106,7 +98,7 @@ namespace RenameTool.ViewModel
         }
 
 
-        private string CreateNewString()
+        private string NewChangedString()
         {
             if (string.IsNullOrEmpty(viewModel.OldTextValue))
             {
@@ -137,7 +129,7 @@ namespace RenameTool.ViewModel
         {
             viewModel.OnPropertyChanged(property);
             OnPropertyChanged(property);
-            PreviewFileName = !IsSelected ? OriginalFileName : CreateNewString();
+            PreviewFileName = !IsSelected ? OriginalFileName : NewChangedString();
         }
 
         #endregion

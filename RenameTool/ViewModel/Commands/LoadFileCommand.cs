@@ -6,7 +6,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace RenameTool.ViewModel.Commands
 {
-    internal sealed class LoadFileCommand : ICommand
+    public class LoadFileCommand : ICommand
     {
         private readonly ViewModelBase viewModel;
 
@@ -24,33 +24,27 @@ namespace RenameTool.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            OpenFile();
+            var directory = SelectPath();
+            if (directory == null)
+                return;
+            AddFiles(directory);
         }
 
         public event EventHandler CanExecuteChanged;
 
 
-        private void OpenFile()
-        {
-            var directory = SelectPath();
-            if (directory == null)
-                return;
-            AddFiles(directory);
-            viewModel.OnPropertyChanged();
-        }
-
-        private void AddFiles(string directory)
+        public void AddFiles(string directory)
         {
             var filePaths = Directory.GetFiles(directory).ToList();
             viewModel.FileList.Clear();
             viewModel.SelectAll = false;
             foreach (var filePath in filePaths)
             {
-                
                 viewModel.FileList.Add(new File(filePath, viewModel));
             }
 
             viewModel.SelectAll = true;
+            viewModel.OnPropertyChanged();
         }
 
         private static string SelectPath()

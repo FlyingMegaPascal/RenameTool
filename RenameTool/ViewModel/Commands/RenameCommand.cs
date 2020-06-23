@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace RenameTool.ViewModel.Commands
 {
-    internal class RenameCommand : ICommand
+    public class RenameCommand : ICommand
     {
         private readonly ViewModelBase viewModel;
 
@@ -22,19 +22,25 @@ namespace RenameTool.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            foreach (var file in viewModel.FileList)
-            {
-                file.ChangeFileName();
-            }
-
-            viewModel.OnPropertyChanged();
+            RenameFiles();
         }
+
 
         public event EventHandler CanExecuteChanged;
 
         private void OnCanExecuteChanged(object sender, System.ComponentModel.PropertyChangedEventArgs eventArg)
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RenameFiles()
+        {
+            foreach (var file in viewModel.FileList)
+            {
+                file.ChangeFileName();
+            }
+
+            viewModel.OnPropertyChanged();
         }
     }
 }

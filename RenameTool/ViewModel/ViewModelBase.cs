@@ -1,13 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using RenameTool.ViewModel.Commands;
 
 namespace RenameTool.ViewModel
 {
-    public sealed class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public ViewModelBase()
         {
@@ -21,10 +19,10 @@ namespace RenameTool.ViewModel
 
         public ObservableCollection<File> FileList { get; }
 
-        public ICommand LoadFileCommand { get; }
-        public ICommand RenameCommand { get; }
-        public ICommand UndoCommand { get; }
-        public ICommand CopyToClipboardCommand { get; }
+        public LoadFileCommand LoadFileCommand { get; }
+        public RenameCommand RenameCommand { get; }
+        public UndoCommand UndoCommand { get; }
+        public CopyToClipboardCommand CopyToClipboardCommand { get; }
 
         #region CommandFunctions
 
