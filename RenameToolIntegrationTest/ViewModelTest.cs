@@ -17,9 +17,10 @@ namespace RenameToolIntegrationTest
 
         private readonly ViewModelBase cut;
         private readonly string path;
+        private const string PrefixTestString = "MyPrefix";
 
 
-        private void CreateEmptyFile(string filename)
+        private static void CreateEmptyFile(string filename)
         {
             File.Create(filename).Dispose();
         }
@@ -27,7 +28,6 @@ namespace RenameToolIntegrationTest
         private void NewFiles()
         {
             var directoryInfo = new DirectoryInfo(path);
-
             foreach (var file in directoryInfo.GetFiles())
             {
                 file.Delete();
@@ -44,6 +44,7 @@ namespace RenameToolIntegrationTest
         {
             //Arrange and assert arrangement
             cut.SelectAll = true;
+
             //act
             var messageText = cut.CopyToClipboardCommand.MessageTxt();
             var clipBoardText = cut.CopyToClipboardCommand.ClipboardText();
@@ -59,6 +60,7 @@ namespace RenameToolIntegrationTest
         {
             //Arrange and assert arrangement
             cut.SelectAll = false;
+
             //act
             var messageText = cut.CopyToClipboardCommand.MessageTxt();
             var clipBoardText = cut.CopyToClipboardCommand.ClipboardText();
@@ -76,15 +78,15 @@ namespace RenameToolIntegrationTest
             Assert.True(cut.LoadFileCommand.CanExecute(null));
         }
 
+
         [Fact]
         public void RenameFiles_SelectedFile_Success()
         {
             //Arrange
             cut.SelectAll = false;
             cut.FileList[2].IsSelected = true;
-            var prefix = "MyPrefix";
-            var newValue = "NewValue";
-            cut.Prefix = prefix;
+            const string newValue = "NewValue";
+            cut.Prefix = PrefixTestString;
             cut.NewTextValue = newValue;
             cut.OldTextValue = "Test2";
 
@@ -92,7 +94,7 @@ namespace RenameToolIntegrationTest
             cut.RenameCommand.RenameFiles();
 
             //Assert
-            Assert.Equal(prefix + newValue + ".txt", cut.FileList[2].OriginalFileName);
+            Assert.Equal(PrefixTestString + newValue + ".txt", cut.FileList[2].OriginalFileName);
             Assert.Equal("Test1.txt", cut.FileList[1].OriginalFileName);
         }
 
@@ -103,10 +105,9 @@ namespace RenameToolIntegrationTest
 
             cut.SelectAll = true;
             var originalName = cut.FileList[0].OriginalFileName;
-            var prefix = "MyPrefix";
-            cut.Prefix = prefix;
+            cut.Prefix = PrefixTestString;
             cut.RenameCommand.RenameFiles();
-            Assert.Equal(prefix + originalName, cut.FileList[0].OriginalFileName);
+            Assert.Equal(PrefixTestString + originalName, cut.FileList[0].OriginalFileName);
             //act
             cut.UndoCommand.Undo();
             //Assert
@@ -120,10 +121,9 @@ namespace RenameToolIntegrationTest
             cut.SelectAll = false;
             cut.FileList[0].IsSelected = true;
             var originalName = cut.FileList[0].OriginalFileName;
-            var prefix = "MyPrefix";
-            cut.Prefix = prefix;
+            cut.Prefix = PrefixTestString;
             cut.RenameCommand.RenameFiles();
-            Assert.Equal(prefix + originalName, cut.FileList[0].OriginalFileName);
+            Assert.Equal(PrefixTestString + originalName, cut.FileList[0].OriginalFileName);
             //act
             cut.UndoCommand.Undo();
             //Assert

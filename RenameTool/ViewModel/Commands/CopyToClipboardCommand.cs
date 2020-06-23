@@ -59,7 +59,7 @@ namespace RenameTool.ViewModel.Commands
             return txtClipboard;
         }
 
-        private List<String> SelectedFileNames()
+        private List<string> SelectedFileNames()
         {
             var selectedFiles = viewModel.FileList.Where(file => file.IsSelected).ToList();
             return selectedFiles.Select(file => file.OriginalFileName).ToList();
