@@ -12,6 +12,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup MSBuild.exe
         uses: warrenbuckley/Setup-MSBuild@v1
+      - name: Setup NuGet.exe for use with actions
+        uses: NuGet/setup-nuget@v1.0.2
+      - name: Restore Nuge Packages
+        run: nuget restore RenameTool/RenameTool/RenameTool.sln
+
+        
       
 
       
