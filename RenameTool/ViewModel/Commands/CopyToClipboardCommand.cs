@@ -8,8 +8,8 @@ namespace RenameTool.ViewModel.Commands
 {
     public class CopyToClipboardCommand : ICommand
     {
-        private const string NoSelectionMessage = "nothing selected";
-        private const string CopiedMessage = "copied to clipboard: \n";
+        private const string NoSelectionMessage = "Nothing Selected";
+        private const string CopiedMessage = "Copied To Clipboard: \n" + "\n";
         private readonly ViewModelBase viewModel;
 
         public CopyToClipboardCommand(ViewModelBase viewModel)

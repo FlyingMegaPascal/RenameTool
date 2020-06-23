@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="File Renamer" Height="450" MinHeight="300" Width="800" MinWidth="500">
+        Title="Simple File Rename Tool" Height="450" MinHeight="450" Width="800" MinWidth="700">
     <Window.DataContext>
         <StaticResource ResourceKey="MainViewModel" />
     </Window.DataContext>
@@ -37,11 +37,8 @@
         <StackPanel HorizontalAlignment="Left" >
         <Button Command="{Binding LoadFileCommand}"
                 Content="Open directory"
-                Width="100"/>
+                Width="100" Height="25" Margin="0,5"/>
         </StackPanel>
-
-
-
 
         <ListView Grid.Row="1" ItemsSource="{Binding FileList}" Margin="0,10"
                   ItemContainerStyle="{StaticResource AlternatingListViewItemStyle}" AlternationCount="2">
@@ -61,7 +58,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     
-                    <GridViewColumn Header ="Current Filename" Width ="350">
+                    <GridViewColumn Header ="Current Filename" Width ="300">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -74,7 +71,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header ="Preview Filename" Width ="350">
+                    <GridViewColumn Header ="Preview Filename" Width ="300">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -94,8 +91,8 @@
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel>
@@ -112,15 +109,15 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Command="{Binding CopyToClipboardCommand, Mode=OneWay}"
-                        Content="Copy To Clipboard"
-                        Width="120" />
                 <Button Command="{Binding UndoCommand, Mode=OneWay}"
                         Content="Undo"
-                        Width="60" Margin="5,0" />
+                        Width="60" Margin="0,0,5,0" />
+                <Button Command="{Binding CopyToClipboardCommand, Mode=OneWay}"
+                        Content="Copy To Clipboard"
+                        Width="120" Margin="5,0"/>
                 <Button Command="{Binding RenameCommand, Mode=OneWay}"
                         Content="Rename"
-                        Width="60" Margin="5,0"/>
+                        Width="60" Margin="5,0,0,0"/>
             </StackPanel>
         </Grid>
 
