@@ -20,7 +20,7 @@ A program including wpf and xUnit tests to demonstrate my software skills.
 
 ## Class Diagram
 
-The window presents the view.  
+The window presents the View.  
 The ViewModelBase, the commands and data represent the ViewModel  
 The Model has been left out.  
 ![ClassDiagram](https://github.com/PascalSchei/RenameTool/blob/master/ReadMeFiles/ClassDiagram.png)
