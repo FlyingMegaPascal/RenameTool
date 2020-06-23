@@ -15,7 +15,7 @@ jobs:
       - name: Setup NuGet.exe for use with actions
         uses: NuGet/setup-nuget@v1.0.2
       - name: Restore Nuge Packages
-        run: nuget restore RenameTool/RenameTool/RenameTool.sln
+        run: nuget restore RenameTool/RenameTool.sln
 
         
       
