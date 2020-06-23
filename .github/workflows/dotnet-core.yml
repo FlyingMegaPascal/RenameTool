@@ -16,6 +16,10 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.2
       - name: Restore Nuge Packages
         run: nuget restore RenameTool/RenameTool.sln
+      - name: Build and run .net core tests
+        run: |
+         dotnet build RenameTool/RenameToolIntegrationTest/RenameToolIntegrationTest.csproj
+         dotnet test RenameTool/RenameToolIntegrationTeste/RenameToolIntegrationTest.csproj
 
         
       
