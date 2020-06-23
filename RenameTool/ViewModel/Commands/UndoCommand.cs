@@ -32,7 +32,6 @@ namespace RenameTool.ViewModel.Commands
             {
                 file.Undo();
             }
-
             viewModel.OnPropertyChanged();
         }
 

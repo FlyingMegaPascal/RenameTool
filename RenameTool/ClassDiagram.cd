@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RenameTool.ViewModel.Commands.CopyToClipboardCommand" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="9.25" Width="2.25" />
+    <Members>
+      <Method Name="CanExecute" Hidden="true" />
+      <Event Name="CanExecuteChanged" Hidden="true" />
+      <Field Name="CopiedMessage" Hidden="true" />
+      <Method Name="CopyToClipboardCommand" Hidden="true" />
+      <Method Name="Execute" Hidden="true" />
+      <Field Name="NoSelectionMessage" Hidden="true" />
+      <Method Name="OnCanExecuteChanged" Hidden="true" />
+      <Method Name="SelectedFileNames" Hidden="true" />
+      <Field Name="viewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACQAQAAEwQAACAACAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>ViewModel\Commands\CopyToClipboardCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RenameTool.ViewModel.Commands.LoadFileCommand" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="7.5" Width="2.25" />
+    <Members>
+      <Method Name="CanExecute" Hidden="true" />
+      <Event Name="CanExecuteChanged" Hidden="true" />
+      <Method Name="Execute" Hidden="true" />
+      <Method Name="LoadFileCommand" Hidden="true" />
+      <Method Name="OnCanExecuteChanged" Hidden="true" />
+      <Field Name="viewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEQQAAAAAAAACAAAAAAAAAAABAA=</HashCode>
+      <FileName>ViewModel\Commands\LoadFileCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RenameTool.ViewModel.Commands.RenameCommand" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="11" Width="2.25" />
+    <Members>
+      <Method Name="CanExecute" Hidden="true" />
+      <Event Name="CanExecuteChanged" Hidden="true" />
+      <Method Name="Execute" Hidden="true" />
+      <Method Name="OnCanExecuteChanged" Hidden="true" />
+      <Method Name="RenameCommand" Hidden="true" />
+      <Field Name="viewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEQQAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ViewModel\Commands\RenameCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RenameTool.ViewModel.Commands.UndoCommand" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="6" Width="2.25" />
+    <Members>
+      <Method Name="CanExecute" Hidden="true" />
+      <Event Name="CanExecuteChanged" Hidden="true" />
+      <Method Name="Execute" Hidden="true" />
+      <Method Name="OnCanExecuteChanged" Hidden="true" />
+      <Method Name="UndoCommand" Hidden="true" />
+      <Field Name="viewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACBAQAAEQQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModel\Commands\UndoCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RenameTool.ViewModel.File" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="6.75" Width="2.5" />
+    <Members>
+      <Event Name="PropertyChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgCAAAGQAAAAFIAAIBCQAAAAgAAAAAAAAAAAAAgABAA=</HashCode>
+      <FileName>ViewModel\File.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RenameTool.ViewModel.ViewModelBase" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="3.5" Width="3.25" />
+    <Members>
+      <Field Name="newTextValue" Hidden="true" />
+      <Field Name="oldTextValue" Hidden="true" />
+      <Field Name="prefix" Hidden="true" />
+      <Event Name="PropertyChanged" Hidden="true" />
+      <Field Name="selectAll" Hidden="true" />
+      <Method Name="ViewModelBase" Hidden="true" />
+    </Members>
+    <AssociationLine Name="LoadFileCommand" Type="RenameTool.ViewModel.Commands.LoadFileCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.812" Y="6.209" />
+        <Point X="6.812" Y="8.188" />
+        <Point X="4.75" Y="8.188" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.264" Y="0.098" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="RenameCommand" Type="RenameTool.ViewModel.Commands.RenameCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="6.209" />
+        <Point X="7.25" Y="11.552" />
+        <Point X="4.75" Y="11.552" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.216" Y="0.11" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="CopyToClipboardCommand" Type="RenameTool.ViewModel.Commands.CopyToClipboardCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7" Y="6.209" />
+        <Point X="7" Y="9.875" />
+        <Point X="4.75" Y="9.875" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.144" Y="0.134" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="UndoCommand" Type="RenameTool.ViewModel.Commands.UndoCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.562" Y="6.209" />
+        <Point X="6.562" Y="6.688" />
+        <Point X="4.75" Y="6.688" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.206" Y="0.072" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="FileList" Type="RenameTool.ViewModel.File" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.875" Y="6.209" />
+        <Point X="7.875" Y="7.062" />
+        <Point X="8.5" Y="7.062" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.347" Y="0.11" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AggAAAQAACAgAAAAIAAIAAACgICAAgAAAIAAJCCAAAA=</HashCode>
+      <FileName>ViewModel\ViewModelBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LoadFileCommand" />
+      <Property Name="RenameCommand" />
+      <Property Name="CopyToClipboardCommand" />
+      <Property Name="UndoCommand" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="FileList" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RenameTool.View.MainWindow" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <Members>
+      <Method Name="MainWindow" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
