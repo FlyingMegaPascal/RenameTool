@@ -18,7 +18,7 @@ A program including wpf and xUnit tests to demonstrate my software skills.
 - JetBrains ReSharper Ultimate 2019.3
 
 ## Program
-![Program](https://github.com/PascalSchei/RenameTool/blob/master/ReadMeFiles/FileRenamer.png)
+![Program](https://github.com/PascalSchei/RenameTool/blob/master/ReadMeFiles/FileRenameTool.png)
 
 
 ## Class Diagram
