@@ -1,4 +1,7 @@
 # Simple File Rename Tool ![Icon](https://raw.githubusercontent.com/PascalSchei/RenameTool/master/ReadMeFiles/Rename.ico)
+![CI Build](https://github.com/PascalSchei/RenameTool/workflows/CI%20Build/badge.svg)
+
+
 A program including wpf and xUnit tests to demonstrate my software skills.
 
 ## Features
