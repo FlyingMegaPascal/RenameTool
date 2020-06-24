@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Simple File Rename Tool" Height="450" MinHeight="450" Width="800" MinWidth="700">
+        Title="Simple File Rename Tool" Height="450" MinHeight="450" Width="800" MinWidth="700" Icon="Rename.ico">
     <Window.DataContext>
         <StaticResource ResourceKey="MainViewModel" />
     </Window.DataContext>
