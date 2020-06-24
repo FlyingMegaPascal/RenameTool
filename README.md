@@ -1,4 +1,4 @@
-# Simple File Rename Tool ![Icon](https://raw.githubusercontent.com/PascalSchei/RenameTool/master/RenameTool/RenameTool.ico)
+# Simple File Rename Tool ![Icon](https://raw.githubusercontent.com/PascalSchei/RenameTool/master/ReadMeFiles/Rename.ico)
 A program including wpf and xUnit tests to demonstrate my software skills.
 
 ## Features
